@@ -19,6 +19,10 @@ jobs:
     - name: Restore dependencies
       working-directory: ./practice2025
       run: dotnet restore 
+
+    - name: Build project
+      working-directory: ./practice2025
+      run: dotnet build
     
     - name: Run tests
       working-directory: ./practice2025
