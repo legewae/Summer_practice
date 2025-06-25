@@ -1,21 +1,29 @@
-name: Main CI-pipeline
+name: Run Tests
 
 on:
   push:
   pull_request:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  test:
+    runs-on: windows-latest
+    
     steps:
-      - uses: actions/checkout@v4
-  
-      - name: Fix style
-        run: make fmt
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Restore dependencies
+      working-directory: ./practice2025
+      run: dotnet restore 
 
-      - name: Check style
-        run: make check_fmt
- 
-      - name: Test
-        run: make test
+    - name: Build project
+      working-directory: ./practice2025
+      run: dotnet build
+    
+    - name: Run tests
+      working-directory: ./practice2025
+      run: dotnet test --no-build --verbosity normal
